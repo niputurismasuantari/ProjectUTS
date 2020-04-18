@@ -1,0 +1,66 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+</head>
+<body>
+    <h1 style="text-align: center;">Aplikasi Kasir Sederhana</h1>
+    <h3 style="text-align: center;">Ni Putu Risma Suantari</h3>
+    <h3 style="text-align: center;">1701010018</h3>
+    <h3 style="text-align: center;">Sistem Informasi</h3>
+    <div id="list"></div>
+    <script>
+    const electron = require("electron");
+    const {
+        ipcRenderer
+    } = electron;
+
+    ipcRenderer.send("appointment:request:today");
+
+    ipcRenderer.on("appointment:response:today", (event, appointments) => {
+        const listDiv = document.getElementById("list");
+        appointments.forEach(appointment => {
+            const appointmentDiv = document.createElement("div");
+
+            const tanggalParagraph = document.createElement("p");
+            tanggalParagraph.innerHTML = `Tanggal: ${appointment.tanggal}`;
+
+            const namaParagraph = document.createElement("p");
+            namaParagraph.innerHTML = `Nama Barang: ${appointment.nama}`;
+
+            const hargaParagraph = document.createElement("p");
+            hargaParagraph.innerHTML = `Harga Barang: ${appointment.harga}`;
+
+            const jumlahParagraph = document.createElement("p");
+            jumlahParagraph.innerHTML = `Jumlah Barang: ${appointment.jumlah}`;
+
+            const totalParagraph = document.createElement("p");
+            totalParagraph.innerHTML = `Total: ${appointment.jumlah*appointment.harga}`;
+
+            const bayarParagraph = document.createElement("p");
+            bayarParagraph.innerHTML = `Bayar: ${appointment.bayar}`;
+
+            const kembaliParagraph = document.createElement("p");
+            kembaliParagraph.innerHTML = `Kembalian: ${appointment.bayar-(appointment.jumlah*appointment.harga)}`;
+
+            const hr = document.createElement("hr");
+
+            appointmentDiv.appendChild(tanggalParagraph);
+            appointmentDiv.appendChild(namaParagraph);
+            appointmentDiv.appendChild(hargaParagraph);
+            appointmentDiv.appendChild(jumlahParagraph);
+            appointmentDiv.appendChild(totalParagraph);
+            appointmentDiv.appendChild(bayarParagraph);
+            appointmentDiv.appendChild(kembaliParagraph);
+            appointmentDiv.appendChild(hr);
+
+            listDiv.append(appointmentDiv);
+        });
+    });
+
+    const done = id => {
+        ipcRenderer.send("appointment:done", id);
+    };
+
+ </script>
+</body>
+</html>

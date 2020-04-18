@@ -1,0 +1,17 @@
+{
+  "name": "electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "electron": "^8.0.0",
+    "save": "^2.4.0",
+    "uuid": "^7.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "set ELECTRON_DISABLE_SECURITY_WARNINGS=true && electron ."
+  },
+  "author": "",
+  "license": "ISC"
+}

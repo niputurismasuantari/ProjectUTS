@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    </head>
+<body>
+    
+    <h3>Kasir Sederhana</h3>
+    <form id="form" >
+        <div class="form-group">
+            <label for="tanggal">Tanggal:</label><br />
+            <input type="date" name="tanggal" placeholder="YYYY-MM-DD" required />
+        </div>
+        <div class="form-group">
+            <label for="nama">Nama Barang:</label><br />
+            <input type="text" name="nama" required />
+        </div>
+        <div class="form-group">
+            <label for="harga">Harga Barang:</label><br />
+            <input type="number" name="harga" required />
+        </div>
+        <div class="form-group">
+            <label for="jumlah">Jumlah Barang:</label><br />
+            <input type="number" name="jumlah" required />
+        </div>
+        <div class="form-group">
+            <label for="bayar">Bayar:</label><br />
+            <input type="number" name="bayar" required />
+        </div>
+        <input type="submit" class="btn btn-primary" value="Kirim" />
+
+    </form>
+
+    <script>
+        const electron = require("electron");
+        const {
+            ipcRenderer
+
+        } = electron;
+
+        const form = document.getElementById("form");
+        const elements = {};
+
+        form.addEventListener("submit", event => {
+            event.preventDefault();
+
+            for (let i = 0; i < form.elements.length; i++) {
+                if (form.elements[i].type !== "submit")
+                    elements[form.elements[i].name] = form.elements[i].value;
+            }
+
+            ipcRenderer.send("appointment:create", elements);
+
+        });
+    </script>
+</body>
+
+</html>
